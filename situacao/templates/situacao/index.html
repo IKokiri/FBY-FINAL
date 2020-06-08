@@ -1,0 +1,44 @@
+<table>
+    <tr>
+        <td>
+            <a href="/daminhaconta/situacao/">Inicio</a>
+        </td>
+        <td>
+            <a href="/daminhaconta/situacao/cadastro/">Cadastro</a>
+        </td>
+        
+    </tr>
+</table>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Situação</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for situacao in situacoes %}
+        <tr>
+            <td>{{situacao.situacao}}</td>
+            <td>
+                <a href="atualizacao/{{situacao.id}}">Editar</a>
+            </td>
+            <td>
+
+            <a href="delete/{{situacao.id}}">apagar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <thead>
+        <tr>
+            <th>Situação</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+</table>

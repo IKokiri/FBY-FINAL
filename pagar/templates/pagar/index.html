@@ -1,0 +1,44 @@
+<table>
+    <tr>
+        <td>
+            <a href="/daminhaconta/pagar/">Inicio</a>
+        </td>
+        <td>
+            <a href="/daminhaconta/pagar/cadastro/">Cadastro</a>
+        </td>
+        
+    </tr>
+</table>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for pagar in pagamentos %}
+        <tr>
+            <td>{{pagar.descricao}}</td>
+            <td>
+                <a href="atualizacao/{{pagar.id}}">Editar</a>
+            </td>
+            <td>
+
+            <a href="delete/{{pagar.id}}">apagar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+</table>

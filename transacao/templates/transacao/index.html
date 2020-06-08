@@ -1,0 +1,44 @@
+<table>
+    <tr>
+        <td>
+            <a href="/daminhaconta/transacao/">Inicio</a>
+        </td>
+        <td>
+            <a href="/daminhaconta/transacao/cadastro/">Cadastro</a>
+        </td>
+        
+    </tr>
+</table>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Transação</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for transacao in transacoes %}
+        <tr>
+            <td>{{transacao.transacao}}</td>
+            <td>
+                <a href="atualizacao/{{transacao.id}}">Editar</a>
+            </td>
+            <td>
+
+            <a href="delete/{{transacao.id}}">apagar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <thead>
+        <tr>
+            <th>Transação</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+</table>

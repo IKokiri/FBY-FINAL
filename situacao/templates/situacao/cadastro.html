@@ -1,0 +1,6 @@
+<form action="{{rota}}/{{situacao.id}}{{completabarraparaupdate}}" method="POST">
+    {%csrf_token%}
+    <label for="situacao">Situação</label>
+    <input type="text" name="situacao" id="situacao" value="{{situacao.situacao}}">
+    <button type="submit">{{acao}}</button>
+</form>

@@ -1,0 +1,44 @@
+<table>
+    <tr>
+        <td>
+            <a href="/daminhaconta/classificacao/">Inicio</a>
+        </td>
+        <td>
+            <a href="/daminhaconta/classificacao/cadastro/">Cadastro</a>
+        </td>
+        
+    </tr>
+</table>
+
+<table border=1>
+    <thead>
+        <tr>
+            <th>Classificação</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for classificacao in classificacoes %}
+        <tr>
+            <td>{{classificacao.classificacao}}</td>
+            <td>
+                <a href="atualizacao/{{classificacao.id}}">Editar</a>
+            </td>
+            <td>
+
+            <a href="delete/{{classificacao.id}}">apagar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <thead>
+        <tr>
+            <th>Classificação</th>
+            <th>Editar</th>
+            <th>apagar</th>
+        </tr>
+    </thead>
+</table>
