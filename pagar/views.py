@@ -97,27 +97,31 @@ def delete(request,id):
     return redirect('/daminhaconta/pagar/')
 
 def relatorio(request):
-    
-    dti = request.POST['data_inicial']
-    dtf = request.POST['data_final']
-    dtirelatorio = dti
-    dtfrelatorio = dtf
-    if dti and dtf: 
+    template = loader.get_template('pagar/relatorio.html')    
+
+    if request.POST['data_inicial'] and request.POST['data_final']:
+        dti = request.POST['data_inicial']
+        dtf = request.POST['data_final']
+        dtirelatorio = dti
+        dtfrelatorio = dtf
 
         dti = request.POST['data_inicial'].split("/")
         dtf = request.POST['data_final'].split("/")
         dti = dti[2]+"-"+dti[1]+"-"+dti[0];
         dtf = dtf[2]+"-"+dtf[1]+"-"+dtf[0];
         pagamentos = Pagar.objects.filter(data_pagamento__range=[dti, dtf])   
+
+        context ={
+            'pagamentos':pagamentos,
+            'data_inicial':dtirelatorio,
+            'data_final':dtfrelatorio,
+        }
+        return HttpResponse(template.render(context,request))
     else:
         pagamentos = Pagar.objects.all()
-
-    template = loader.get_template('pagar/relatorio.html')
-
-    context ={
-        'pagamentos':pagamentos,
-        'data_inicial':dtirelatorio,
-        'data_final':dtfrelatorio,
-    }
-    return HttpResponse(template.render(context,request))
+        context ={
+            'pagamentos':pagamentos,
+        }
+        return HttpResponse(template.render(context,request))
+        
     
