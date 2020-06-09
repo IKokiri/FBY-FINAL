@@ -1,0 +1,44 @@
+<form action="/daminhaconta/pagar/relatorio/" method="POST">
+    {%csrf_token%}
+    
+    <label for="data_inicial">Data Inicial</label>
+    <input type="text" name="data_inicial" id="data_inicial" placeholder="dd/mm/aaaa">
+    
+
+    <label for="data_final">Data Inicial</label>
+    <input type="text" name="data_final" id="data_final" placeholder="dd/mm/aaaa">
+    
+    <button type="submit">Buscar</button>
+</form>
+{%if data_inicial and data_final%}
+    Relariorio do dia {{data_inicial}} ao dia {{data_final}}
+{%else%}
+    Relatorio completo
+{%endif%}
+<table border=1>
+    <thead>
+        <tr>
+            <th>data vencimento</th>
+            <th>data pagamento</th>
+            <th>descricao</th>
+            <th>classificacao</th>
+            <th>transacao</th>
+            <th>situacao</th>
+            <th>valor</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for pagar in pagamentos %}
+        <tr>
+            <td>{{pagar.data_vencimento|date:"d/m/Y"}}</td>
+            <td>{{pagar.data_pagamento|date:"d/m/Y"}}</td>
+            <td>{{pagar.descricao}}</td>
+            <td>{{pagar.classificacao.classificacao}}</td>
+            <td>{{pagar.transacao.transacao}}</td>
+            <td>{{pagar.situacao.situacao}}</td>
+            <td>{{pagar.valor}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -8,6 +8,9 @@ from datetime import datetime
 from django.shortcuts import redirect
 
 from .models import Receber
+from classificacao.models import Classificacao
+from transacao.models import Transacao
+from situacao.models import Situacao
 
 def read(request):
     recebimentos = Receber.objects.all()
@@ -18,8 +21,14 @@ def read(request):
     return HttpResponse(template.render(context,request))
     
 def cadastro(request):
+    classificacoes = Classificacao.objects.all()
+    transacoes = Transacao.objects.all()
+    situacoes = Situacao.objects.all()
     template = loader.get_template('receber/cadastro.html')
     context ={
+        'classificacoes':classificacoes,
+        'transacoes':transacoes,
+        'situacoes':situacoes,
         'rota':'/daminhaconta/receber/create',
         'completabarraparaupdate':'',
         'acao':"Criar",
@@ -27,18 +36,34 @@ def cadastro(request):
     return HttpResponse(template.render(context,request))
 
 def create(request):
+    
+    dtr = datetime.strptime(request.POST['data_recebimento'], "%d/%m/%Y").date()
+
+    c = Classificacao.objects.get(id=request.POST['classificacao_id'])
+    t = Transacao.objects.get(id=request.POST['transacao_id'])
+    s = Situacao.objects.get(id=request.POST['situacao_id'])
     receber = Receber(
-        descricao=request.POST['descricao']
+        descricao=request.POST['descricao'],
+        valor=request.POST['valor'],
+        data_recebimento=dtr,
+        classificacao=c,
+        transacao=t,
+        situacao=s,
     )
     receber.save()
     return redirect('/daminhaconta/receber/')
 
 def atualizacao(request,id):
-
+    classificacoes = Classificacao.objects.all()
+    transacoes = Transacao.objects.all()
+    situacoes = Situacao.objects.all()
     receber = Receber.objects.get(id=id)
-
+    receber.data_recebimento = receber.data_recebimento.strftime("%d/%m/%Y")
     template = loader.get_template('receber/cadastro.html')
     context ={
+        'classificacoes':classificacoes,
+        'transacoes':transacoes,
+        'situacoes':situacoes,
         'rota':'/daminhaconta/receber/update',
         'acao':"Atualizar",
         'completabarraparaupdate':'/',
@@ -48,8 +73,16 @@ def atualizacao(request,id):
     return HttpResponse(template.render(context,request))
 
 def update(request,id):
+    
+    dtr = datetime.strptime(request.POST['data_recebimento'], "%d/%m/%Y").date()
+
     receber = Receber.objects.get(id=id)
     receber.descricao = request.POST['descricao']
+    receber.classificacao_id = request.POST['classificacao_id']    
+    receber.transacao_id = request.POST['transacao_id']
+    receber.situacao_id = request.POST['situacao_id']
+    receber.valor = request.POST['valor']
+    receber.data_recebimento = dtr
     receber.save()
     return redirect('/daminhaconta/receber/')
 

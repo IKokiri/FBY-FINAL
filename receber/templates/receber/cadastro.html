@@ -2,5 +2,55 @@
     {%csrf_token%}
     <label for="descricao">Descrição</label>
     <input type="text" name="descricao" id="descricao" value="{{receber.descricao}}">
+
+    <label for="data_recebimento">Data Recebimento</label>
+    <input type="text" name="data_recebimento" id="data_recebimento" value="{{receber.data_recebimento}}" placeholder="dd/mm/aaaa">
+
+    <label for="descricao">Valor</label>
+    <input type="text" name="valor" id="valor" value="{{receber.valor}}" placeholder="0.0">
+
+    <label for="classificacao_id">Classificações</label>
+
+    <select name="classificacao_id" id="classificacao_id">
+        {% for c in classificacoes%}
+            {% if c.id == receber.classificacao_id %}
+            <option selected value="{{c.id}}">
+                {{c.classificacao}}
+            </option>
+            {%else%}
+            <option value="{{c.id}}">
+                {{c.classificacao}}
+            </option>
+            {%endif%}
+        {% endfor %}
+    </select>
+    <label for="classificacao_id">Transações</label>
+    <select name="transacao_id" id="transacao_id">
+        {% for t in transacoes%}
+        {% if t.id == receber.transacao_id %}
+            <option selected value="{{t.id}}">
+                {{t.transacao}}
+            </option>
+            {%else%}
+            <option value="{{t.id}}">
+                {{t.transacao}}
+            </option>
+            {%endif%}
+        {% endfor %}
+    </select>
+    <label for="classificacao_id">Situações</label>
+    <select name="situacao_id" id="situacao_id">
+        {% for s in situacoes%}
+        {% if s.id == receber.situacao_id%}
+            <option selected value="{{s.id}}">
+                {{s.situacao}}
+            </option>
+            {%else%}
+            <option value="{{s.id}}">
+                {{s.situacao}}
+            </option>
+            {%endif%}
+        {% endfor %}
+    </select>
     <button type="submit">{{acao}}</button>
 </form>
