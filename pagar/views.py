@@ -8,6 +8,9 @@ from datetime import datetime
 from django.shortcuts import redirect
 
 from .models import Pagar
+from classificacao.models import Classificacao
+from transacao.models import Transacao
+from situacao.models import Situacao
 
 def read(request):
     pagamentos = Pagar.objects.all()
@@ -18,8 +21,14 @@ def read(request):
     return HttpResponse(template.render(context,request))
     
 def cadastro(request):
+    classificacoes = Classificacao.objects.all()
+    transacoes = Transacao.objects.all()
+    situacoes = Situacao.objects.all()
     template = loader.get_template('pagar/cadastro.html')
     context ={
+        'classificacoes':classificacoes,
+        'transacoes':transacoes,
+        'situacoes':situacoes,
         'rota':'/daminhaconta/pagar/create',
         'completabarraparaupdate':'',
         'acao':"Criar",
@@ -27,18 +36,37 @@ def cadastro(request):
     return HttpResponse(template.render(context,request))
 
 def create(request):
+    
+    dtp = datetime.strptime(request.POST['data_pagamento'], "%d/%m/%Y").date()
+    dtv = datetime.strptime(request.POST['data_vencimento'], "%d/%m/%Y").date()
+
+    c = Classificacao.objects.get(id=request.POST['classificacao_id'])
+    t = Transacao.objects.get(id=request.POST['transacao_id'])
+    s = Situacao.objects.get(id=request.POST['situacao_id'])
     pagar = Pagar(
-        descricao=request.POST['descricao']
+        descricao=request.POST['descricao'],
+        valor=request.POST['valor'],
+        data_pagamento=dtp,
+        data_vencimento=dtv,
+        classificacao=c,
+        transacao=t,
+        situacao=s,
     )
     pagar.save()
     return redirect('/daminhaconta/pagar/')
 
 def atualizacao(request,id):
-
+    classificacoes = Classificacao.objects.all()
+    transacoes = Transacao.objects.all()
+    situacoes = Situacao.objects.all()
     pagar = Pagar.objects.get(id=id)
-
+    pagar.data_pagamento = pagar.data_pagamento.strftime("%d/%m/%Y")
+    pagar.data_vencimento = pagar.data_vencimento.strftime("%d/%m/%Y")
     template = loader.get_template('pagar/cadastro.html')
     context ={
+        'classificacoes':classificacoes,
+        'transacoes':transacoes,
+        'situacoes':situacoes,
         'rota':'/daminhaconta/pagar/update',
         'acao':"Atualizar",
         'completabarraparaupdate':'/',
@@ -48,8 +76,18 @@ def atualizacao(request,id):
     return HttpResponse(template.render(context,request))
 
 def update(request,id):
+    
+    dtp = datetime.strptime(request.POST['data_pagamento'], "%d/%m/%Y").date()
+    dtv = datetime.strptime(request.POST['data_vencimento'], "%d/%m/%Y").date()
+
     pagar = Pagar.objects.get(id=id)
     pagar.descricao = request.POST['descricao']
+    pagar.classificacao_id = request.POST['classificacao_id']    
+    pagar.transacao_id = request.POST['transacao_id']
+    pagar.situacao_id = request.POST['situacao_id']
+    pagar.valor = request.POST['valor']
+    pagar.data_vencimento = dtv
+    pagar.data_pagamento = dtp
     pagar.save()
     return redirect('/daminhaconta/pagar/')
 

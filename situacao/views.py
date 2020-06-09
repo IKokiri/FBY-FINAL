@@ -28,7 +28,7 @@ def cadastro(request):
 
 def create(request):
     situacao = Situacao(
-        situacao=request.POST['situacao']
+        situacao=request.POST['situacao'],
     )
     situacao.save()
     return redirect('/daminhaconta/situacao/')
