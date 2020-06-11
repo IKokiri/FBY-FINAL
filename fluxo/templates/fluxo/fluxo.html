@@ -1,3 +1,4 @@
+
 <table border='1'>
     <tr>
         <td>SITUAÇÕES</td>
@@ -48,35 +49,38 @@
     </tr>
 </table>
 
-<table border=1>
+<table border='1'>
     <thead>
         <tr>
-            <th>Descrição</th>
-            <th>Editar</th>
-            <th>apagar</th>
+            <th>Data</th>
+            <th>Classificacao</th>
+            <th>situação</th>
+            <th>Transação</th>
+            <th>valor</th>
         </tr>
     </thead>
     <tbody>
 
-        {% for pagar in pagamentos %}
-        <tr>
-            <td>{{pagar.descricao}}</td>
-            <td>
-                <a href="atualizacao/{{pagar.id}}">Editar</a>
-            </td>
-            <td>
-
-            <a href="delete/{{pagar.id}}">apagar</a>
-            </td>
+    {%for c in contas%}
+        {%if c.tag == "P" %}
+        <tr style="background-color: rgb(255, 199, 199);">
+            <td>{{c.data_pagamento}}</td>
+            <td>{{c.classificacao}}</td>
+            <td>{{c.situacao}}</td>
+            <td>{{c.transacao}}</td>
+            <td>{{c.valor}}</td>
         </tr>
-        {% endfor %}
+        {%else%}
+        <tr>
+            <td>{{c.data_pagamento}}</td>
+            <td>{{c.classificacao}}</td>
+            <td>{{c.situacao}}</td>
+            <td>{{c.transacao}}</td>
+            <td>{{c.valor}}</td>
+        </tr>
+        {%endif%}
+
+    {%endfor%}
     </tbody>
-
-    <thead>
-        <tr>
-            <th>Descrição</th>
-            <th>Editar</th>
-            <th>apagar</th>
-        </tr>
-    </thead>
 </table>
+<h1>SALDO: {{calculos.saldo_total}}</h1>

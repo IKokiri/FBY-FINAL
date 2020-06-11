@@ -9,4 +9,5 @@ urlpatterns = [
     path('receber/atualizacao/<int:id>/', views.atualizacao),
     path('receber/update/<int:id>/', views.update),
     path('receber/delete/<int:id>/', views.delete),
+    path('receber/relatorio/', views.relatorio),    
 ]	

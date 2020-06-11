@@ -47,36 +47,45 @@
         </td>
     </tr>
 </table>
+<form action="/daminhaconta/receber/relatorio/" method="POST">
+    {%csrf_token%}
+    
+    <label for="data_inicial">Data Inicial</label>
+    <input type="text" name="data_inicial" id="data_inicial" placeholder="dd/mm/aaaa">
+    
 
+    <label for="data_final">Data Inicial</label>
+    <input type="text" name="data_final" id="data_final" placeholder="dd/mm/aaaa">
+    
+    <button type="submit">Buscar</button>
+</form>
+{%if data_inicial and data_final%}
+    Relariorio do dia {{data_inicial}} ao dia {{data_final}}
+{%else%}
+    Relatorio completo
+{%endif%}
 <table border=1>
     <thead>
         <tr>
-            <th>Descrição</th>
-            <th>Editar</th>
-            <th>apagar</th>
+            <th>data recebimento</th>
+            <th>descricao</th>
+            <th>classificacao</th>
+            <th>transacao</th>
+            <th>situacao</th>
+            <th>valor</th>
         </tr>
     </thead>
     <tbody>
 
-        {% for pagar in pagamentos %}
+        {% for receber in recebimentos %}
         <tr>
-            <td>{{pagar.descricao}}</td>
-            <td>
-                <a href="atualizacao/{{pagar.id}}">Editar</a>
-            </td>
-            <td>
-
-            <a href="delete/{{pagar.id}}">apagar</a>
-            </td>
+            <td>{{receber.data_recebimento|date:"d/m/Y"}}</td>
+            <td>{{receber.descricao}}</td>
+            <td>{{receber.classificacao.classificacao}}</td>
+            <td>{{receber.transacao.transacao}}</td>
+            <td>{{receber.situacao.situacao}}</td>
+            <td>{{receber.valor}}</td>
         </tr>
         {% endfor %}
     </tbody>
-
-    <thead>
-        <tr>
-            <th>Descrição</th>
-            <th>Editar</th>
-            <th>apagar</th>
-        </tr>
-    </thead>
 </table>

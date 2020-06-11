@@ -91,4 +91,34 @@ def delete(request,id):
     receber.delete()		
     return redirect('/daminhaconta/receber/')
 
+
+def relatorio(request):
+
+    template = loader.get_template('receber/relatorio.html')    
+
+    if request.POST:
+        if request.POST['data_inicial'] and request.POST['data_final']:
+            dti = request.POST['data_inicial']
+            dtf = request.POST['data_final']
+            dtirelatorio = dti
+            dtfrelatorio = dtf
+
+            dti = request.POST['data_inicial'].split("/")
+            dtf = request.POST['data_final'].split("/")
+            dti = dti[2]+"-"+dti[1]+"-"+dti[0]
+            dtf = dtf[2]+"-"+dtf[1]+"-"+dtf[0]
+            recebimentos = Receber.objects.filter(data_recebimento__range=[dti, dtf])   
+
+            context ={
+                'recebimentos':recebimentos,
+                'data_inicial':dtirelatorio,
+                'data_final':dtfrelatorio,
+            }
+            return HttpResponse(template.render(context,request))
+    
+    recebimentos = Receber.objects.all()
+    context ={
+        'recebimentos':recebimentos,
+    }
+    return HttpResponse(template.render(context,request))
     

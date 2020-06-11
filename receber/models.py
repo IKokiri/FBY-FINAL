@@ -10,3 +10,4 @@ class Receber(models.Model):
 	transacao = models.ForeignKey(Transacao, on_delete=models.SET_NULL, null = True)
 	situacao = models.ForeignKey(Situacao, on_delete=models.SET_NULL, null = True)
 	valor = models.FloatField(null=True, blank=True, default=None)
+	tag = models.CharField(max_length=1,null=False,default='R')
